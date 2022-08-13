@@ -8,6 +8,10 @@
 
 - **file_content** - Role to test module **file_content**. [Details...](roles/file_content/)
 
+## Playbooks
+
+- **test_file_content** - Single task playbook for test role file_content
+
 ## License (MIT)
 
 Copyright (c) 2022 Artem Shtepa

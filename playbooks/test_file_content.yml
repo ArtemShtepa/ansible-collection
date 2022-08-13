@@ -1,0 +1,5 @@
+---
+- name: Test file content role
+  hosts: localhost
+  roles:
+    - artem_shtepa.utils.file_content
