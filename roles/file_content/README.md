@@ -1,5 +1,4 @@
-File_Content Role
-=================
+# File_Content Role
 
 Role to test file_content module.
 
@@ -7,14 +6,12 @@ By default role write **test_content** string to file **test_file** on host.
 You can change file name and file content by variables.
 If content is omitted role will try to read file content from existed file on host.
 
-Variables
----------
+# Variables
 
 - **test_file** [str] - Path to file. Optional
 - **test_content** [str] - Content of the file. Optional
 
-Output
-------
+# Output
 
 - **path** - Path to file
 - **content** - Content of the file. Can be readed from file or written to.
@@ -32,8 +29,7 @@ Output
 - **state** - File state: file or directory
 - **size** - File size
 
-Examples
---------
+# Examples
 
 ```yaml
 ---
@@ -44,13 +40,3 @@ Examples
       content: 'write some bytes'
 ...
 ```
-
-License
--------
-
-MIT
-
-Author Information
-------------------
-
-Artem Shtepa
