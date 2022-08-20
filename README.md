@@ -2,7 +2,13 @@
 
 ## Plugins
 
-- **file_content** [module] - Write content to file or read from. [Details...](plugins/)
+- **file_content** [module] - Write content to file or read from.
+
+- **yc_vpc** [module] - Manage Yandex Virtual Private Cloud resources.
+
+- **yc_cmp** [module] - Manage Yandex Compute Cloud resources.
+
+[Details about plugins...](plugins/)
 
 ## Roles
 
