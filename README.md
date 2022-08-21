@@ -28,6 +28,18 @@
 
 > Demo playbooks require **AlexeySetevoi**`s [Clickhouse role](https://github.com/AlexeySetevoi/ansible-clickhouse)
 
+## Install
+
+Install a collection from GitHub repository by https
+```console
+ansible-galaxy collection install git+https://github.com/ArtemShtepa/ansible-collection.git
+```
+
+Install a collection from GitHub repository by SSH:
+```console
+ansible-galaxy collection install git@github.com:ArtemShtepa/ansible-collection.git
+```
+
 ## License (MIT)
 
 Copyright (c) 2022 Artem Shtepa
