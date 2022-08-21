@@ -27,9 +27,13 @@ This module create file with delivered content or read content from existed file
 - **state** - File state: file or directory
 - **size** - File size
 
+---
+
 ## yc_vpc
 
 This module allow control Yandex Virtual Private Cloud resources through Yandex Cloud CLI.
+
+Required installed and configured [Yandex Cloud CLI](https://cloud.yandex.ru/docs/cli/quickstart)
 
 ### Available options:
 
@@ -44,14 +48,20 @@ This module allow control Yandex Virtual Private Cloud resources through Yandex 
 - **net_config** [str] - Network configuration from Yandex Cloud. Return if net exists or created
 - **subnet_config** [str] - Subnet configuration of network from Yandex Cloud. Return if subnet exists or created
 
+---
+
 ## yc_cmp
 
 This module allow control Yandex Compute Cloud resources through Yandex Cloud CLI.
 
+Required installed and configured [Yandex Cloud CLI](https://cloud.yandex.ru/docs/cli/quickstart)
+
+Required configured network and subnetwork by Yandex Cloud CLI or module yc_vpc
+
 ### Available options:
 
 - **machine** [str] - Name of the instance. Required
-- **config** [dict] - Instance configuration with Yandex Cloud CLI parameters. Required.
+- **config** [dict] - Instance configuration with Yandex Cloud CLI parameters. Optional. Default is empty and can be used only for destroy instances.
 - **state** [str] - State of the instance. Must be `exists` or `absent`. Optional. Default value is `exists`
 
 ### Returned values:

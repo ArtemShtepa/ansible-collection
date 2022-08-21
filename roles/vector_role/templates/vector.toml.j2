@@ -1,0 +1,24 @@
+# Set global options
+data_dir = "{{ vector_datadir }}"
+
+# Vector's API (disabled by default)
+# Enable and try it out with the `vector top` command
+[api]
+enabled = true
+address = "0.0.0.0:8686"
+
+[sources.test_log]
+type = "file"
+ignore_older_secs = 600
+include = [ "{{ vector_test_dir }}/*.log" ]
+read_from = "beginning"
+
+[sinks.clickhouse]
+type = "clickhouse"
+inputs = [ "test_log" ]
+database = "logs"
+endpoint = "http://{{ clickhouse_host }}:{{ clickhouse_port }}"
+table = "file_log"
+compression = "gzip"
+auth = { user = "{{ clickhouse_user }}", password = "{{ clickhouse_password }}", strategy = "basic" }
+skip_unknown_fields = true

@@ -11,7 +11,7 @@ module: yc
 
 short_description: Yandex Cloud instance controller
 
-version_added: "1.0.0"
+version_added: "1.0.6"
 
 description: This module translate commands to Yandex Cloud CLI in order to control instances
 
@@ -22,14 +22,17 @@ options:
         type: str
     config:
         description: instance configuration
-        required: True
+        required: false
         type: dict
+    groups:
+        description: group name to add host
+        required: False
+        type: str or list
     state:
         description: state of the instance
         required: false
         type: str
         default: 'exists'
-
 
 
 extends_documentation_fragment:
@@ -40,7 +43,7 @@ author:
 '''
 
 EXAMPLES = r'''
-- name: Create YC instance
+- name: Create YC instance and add host to inventory
   artem_shtepa.utils.yc:
     machine: "my-centos-7"
     config:
@@ -48,14 +51,16 @@ EXAMPLES = r'''
       cores: 2
       memory: 1GB
       create-boot-disk:
-        size: 20GB
+        size: 10GB
         image-folder-id: standard-images
-        image-family: centos-8
+        image-family: centos-7
       public-ip: true
       ssh-key: "~/.ssh/id_ed25519.pub"
+    groups: sample
+
 - name: Destroy YC instance
   artem_shtepa.utils.yc:
-    machine: centos_7
+    machine: "my-centos-7"
     state: absent
 '''
 
@@ -65,10 +70,12 @@ version:
     type: str
     returned: always
     sample: 'Yandex Cloud CLI 0.93.0 linux/amd64'
+
 config:
     description: Instance configuration from Yandex.Cloud CLI
     type: str
     returned: if instance if exists or created
+
 ip:
     description: External IP address of the YC instance
     type: str
@@ -119,8 +126,9 @@ def run_module():
     # define available arguments/parameters a user can pass to the module
     module_args = dict(
         machine=dict(type='str', required=True),
-        config=dict(type='dict', required=True),
-        state=dict(type='str', required=False, default='exists')
+        config=dict(type='dict', required=False, default=dict()),
+        # groups=dict(type='raw', required=False, default=None),
+        state=dict(type='str', required=False, default='exists', choices=['exists','absent'])
     )
 
     result = dict(
@@ -222,7 +230,13 @@ def run_module():
             result['ip'] = result['config']['network_interfaces'][0]['primary_v4_address']['one_to_one_nat']['address']
         except:
             pass
-
+    # Add host to inventory
+    # if ('ip' in result) and (module.params['groups'] != None):
+    #     result['add_host'] = dict(
+    #         host_name=result['ip'],
+    #         groups=module.params['groups'],
+    #         host_vars=[]
+    #     )
 
     # successful module execution
     module.exit_json(**result)

@@ -1,0 +1,7 @@
+---
+lighthouse_path: "/usr/share/nginx/lighthouse"
+clickhouse_host: "127.0.0.1"
+clickhouse_port: "8123"
+clickhouse_user: "default"
+clickhouse_password: ""
+...

@@ -11,7 +11,7 @@ module: yc
 
 short_description: Yandex Cloud networks controller
 
-version_added: "1.0.0"
+version_added: "1.0.1"
 
 description: This module translate commands to Yandex Cloud CLI in order to control networks
 
@@ -61,9 +61,11 @@ version:
     type: str
     returned: always
     sample: 'Yandex Cloud CLI 0.93.0 linux/amd64'
+
 net_config:
     description: Network configuration from Yandex Cloud
     returned: if net exists or created
+
 subnet_config:
     description: Subnet configuration of network from Yandex Cloud
     returned: if subnet exists or created
@@ -82,7 +84,7 @@ def run_module():
         net=dict(type='str', required=True),
         subnet=dict(type='str', required=True),
         ip_range=dict(type='str', required=False, default='10.2.0.0/16'),
-        state=dict(type='str', required=False, default='exists')
+        state=dict(type='str', required=False, default='exists', choices=['exists','absent'])
     )
 
     result = dict(

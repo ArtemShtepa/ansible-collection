@@ -14,9 +14,19 @@
 
 - **file_content** - Role to test module **file_content**. [Details...](roles/file_content/)
 
+- **vector_role** - Demo role: install and configure vector. [Details...](roles/vector_role/)
+
+- **lighthouse_role** - Demo role: install and configure lighthouse and nginx. [Details...](roles/lighthouse_role/)
+
 ## Playbooks
 
 - **test_file_content** - Single task playbook for test role file_content
+
+- **demo_site** - Demonstration of collection, including the use of Yandex.Cloud modules for infrastructure deployment and roles for service deployment
+
+- **demo_site_remove** - Destruction of the demonstration infrastructure
+
+> Demo playbooks require **AlexeySetevoi**`s [Clickhouse role](https://github.com/AlexeySetevoi/ansible-clickhouse)
 
 ## License (MIT)
 
