@@ -9,7 +9,7 @@
     path: "~/vector"
     state: directory
     mode: "u+rwx,g+r,o+r"
-- name: Unpack vector distrib
+- name: Unpack vector distrib by unarchive
   ansible.builtin.unarchive:
     src: "~/vector-{{ vector_version }}.tar.gz"
     remote_src: true
@@ -22,7 +22,7 @@
     src: "{{ unpack_res['dest'] }}/bin/vector"
     remote_src: true
     dest: "/usr/bin/vector"
-    mode: "+x"
+    mode: +x
   notify: Start vector service
 - name: Create vector directories
   become: true

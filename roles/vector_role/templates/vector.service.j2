@@ -5,7 +5,6 @@ After=network-online.target
 Requires=network-online.target
 
 [Service]
-ExecStartPre=/usr/bin/vector -c {{ vector_config }} validate
 ExecStart=/usr/bin/vector -c {{ vector_config }}
 ExecReload=/usr/bin/vector -c {{ vector_config }} validate
 ExecReload=/bin/kill -HUP $MAINPID

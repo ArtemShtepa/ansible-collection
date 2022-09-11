@@ -1,8 +1,9 @@
 ---
 galaxy_info:
-  author: "Artem Shtepa"
-  description: "Test role for learing"
-  company: "-"
+  role_name: vector_role
+  namespace: artem_shtepa
+  author: Artem Shtepa
+  description: Test role for learing
 
   # If the issue tracker for your role is not on github, uncomment the
   # next line and provide a value
@@ -31,7 +32,11 @@ galaxy_info:
   platforms:
     - name: CentOS
       versions:
-        - "all"
+        - 7
+        - 8
+    - name: Ubuntu
+      versions:
+        - all
   # - name: SomePlatform
   #   versions:
   #   - all
