@@ -6,6 +6,8 @@ Configure **SystemD** operation systems to use **VK Lighthouse** with **nginx**
 
 - **lighthouse_path** - Lighthouse data file path
 
+- **lighthouse_port** - Lighthouse port. Use number after 1024. Default 8088
+
 - **clickhouse_host**: - Clickhouse host where metrics are collected
 
 - **clickhosue_port**: - Clickhouse port where metrics are collected

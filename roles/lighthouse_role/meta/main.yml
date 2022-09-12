@@ -1,8 +1,9 @@
 ---
 galaxy_info:
-  author: "Artem Shtepa"
-  description: "Test role for learing"
-  company: "-"
+  role_name: lighthouse_role
+  namespace: artem_shtepa
+  author: Artem Shtepa
+  description: Test role for learing
 
   # If the issue tracker for your role is not on github, uncomment the
   # next line and provide a value
@@ -31,13 +32,11 @@ galaxy_info:
   platforms:
     - name: CentOS
       versions:
-        - "all"
-  # - name: SomePlatform
-  #   versions:
-  #   - all
-  #   - 1.0
-  #   - 7
-  #   - 99.99
+        - 7
+        - 8
+    - name: Ubuntu
+      versions:
+        - all
 
   galaxy_tags: []
     # List tags for your role here, one per line. A tag is a keyword that describes

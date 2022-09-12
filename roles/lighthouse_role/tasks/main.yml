@@ -1,10 +1,41 @@
 ---
+- name: Check Lighthouse port
+  ansible.builtin.assert:
+    that: lighthouse_port | int > 1024
 - name: Install epel-release for centos7
   become: true
   ansible.builtin.yum:
     name: "epel-release"
     state: present
-  when: ansible_facts['distribution'] == "CentOS"
+  when:
+    - ansible_facts['distribution'] == "CentOS"
+    - ansible_facts['distribution_major_version'] == "7"
+- name: Change repo for centos8
+  block:
+    - name: Get files of repo
+      ansible.builtin.find:
+        path: /etc/yum.repos.d
+        pattern: CentOS-*
+      register: rep_res
+    - name: Comment current url
+      ansible.builtin.replace:
+        path: "{{ item }}"
+        regexp: "^mirrorlist="
+        replace: "#mirrorlist="
+      loop: "{{ rep_res.files | map(attribute='path') }}"
+    - name: Uncomment vault url
+      ansible.builtin.replace:
+        path: "{{ item }}"
+        regexp: "^#baseurl=http://mirror.centos.org"
+        replace: "baseurl=http://vault.centos.org"
+      loop: "{{ rep_res.files | map(attribute='path')}}"
+  when:
+    - ansible_facts['distribution'] == "CentOS"
+    - ansible_facts['distribution_major_version'] == "8"
+- name: Update APT package manager cache
+  ansible.builtin.apt:
+    update_cache: yes
+  when: ansible_pkg_mgr == "apt"
 - name: Install NGinX and Git
   become: true
   ansible.builtin.package:
@@ -44,24 +75,30 @@
     - never
 - name: Configure NGinX
   become: true
-  ansible.builtin.replace:
-    path: "/etc/nginx/nginx.conf"
-    regexp: '/usr/share/nginx/html'
-    replace: "{{ lighthouse_path }}"
-  # ansible.builtin.template:
-  #   src: lighthouse.conf.j2
-  #   dest: "{{ vector_config }}"
-  #   dest: '/etc/nginx/conf.d/lighthouse.conf'
-  #   owner: "nginx"
+  block:
+    #- name: Replace default server on 80 port
+    #  ansible.builtin.replace:
+    #    path: "/etc/nginx/nginx.conf"
+    #    regexp: '/usr/share/nginx/html'
+    #    replace: "{{ lighthouse_path }}"
+    #  when: lighthouse_port == '80'
+    #- name: Restore NGinX configuration
+    #  ansible.builtin.replace:
+    #    path: "/etc/nginx/nginx.conf"
+    #    regexp: "{{ lighthouse_path }}"
+    #    replace: '/usr/share/nginx/html'
+    #  when: lighthouse_port != "80"
+    - name: Add new server by custom port
+      ansible.builtin.template:
+        src: lighthouse.conf.j2
+        dest: '/etc/nginx/conf.d/lighthouse.conf'
+    #  when: lighthouse_port != "80"
+    #- name: Remove custom server for lighthouse
+    #  ansible.builtin.file:
+    #    path: '/etc/nginx/conf.d/lighthouse.conf'
+    #    state: "absent"
+    #  when: lighthouse_port == "80"
   notify: Restart nginx
-- name: Restore NGinX configuration
-  become: true
-  ansible.builtin.replace:
-    path: "/etc/nginx/nginx.conf"
-    regexp: "{{ lighthouse_path }}"
-    replace: '/usr/share/nginx/html'
-  tags:
-    - never
 - name: Enable NGinX autostart
   become: true
   ansible.builtin.service:

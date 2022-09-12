@@ -1,0 +1,31 @@
+---
+- name: Verify vector installation
+  hosts: all
+  gather_facts: false
+  tasks:
+  - name: Get information about nginx
+    ansible.builtin.command: systemctl show nginx
+    register: srv_res
+    changed_when: false
+  - name: Assert nginx service
+    ansible.builtin.assert:
+      that:
+        - srv_res.rc == 0
+        - "'ActiveState=active' in srv_res.stdout_lines"
+        - "'LoadState=loaded' in srv_res.stdout_lines"
+        - "'SubState=running' in srv_res.stdout_lines"
+  - name: Save server home page
+    ansible.builtin.get_url:
+      url: "http://127.0.0.1:8080"
+      dest: "~/index.html"
+      mode: "0644"
+  - name: Get home page
+    ansible.builtin.command: cat ~/index.html
+    register: fil_res
+    changed_when: false
+  - name: Assert lighthouse homepage
+    ansible.builtin.assert:
+      that:
+        - fil_res.rc == 0
+        - fil_res.stdout.find('<title>LightHouse</title>') != -1
+...
