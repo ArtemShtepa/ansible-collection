@@ -62,14 +62,14 @@
   become: true
   ansible.builtin.replace:
     path: "{{ lighthouse_path }}/app.js"
-    regexp: '127\.0\.0\.1:8123\/'');'
-    replace: '{{ clickhouse_host }}:{{ clickhouse_port }}/?user={{ clickhouse_user }}&password={{ clickhouse_password }}'');'
+    regexp: '127\.0\.0\.1:8123\/''\)'
+    replace: '{{ clickhouse_host }}:{{ clickhouse_port }}/?user={{ clickhouse_user }}&password={{ clickhouse_password }}'')'
 - name: Restore lighthouse default host
   become: true
   ansible.builtin.replace:
     path: "{{ lighthouse_path }}/app.js"
-    regexp: '{{ clickhouse_host }}:{{ clickhouse_port }}/?user={{ clickhouse_user }}&password={{ clickhouse_password }}'');'
-    replace: '127\.0\.0\.1:8123\/'');'
+    regexp: '{{ clickhouse_host }}:{{ clickhouse_port }}\/\?user={{ clickhouse_user }}&password={{ clickhouse_password }}''\)'
+    replace: '127.0.0.1:8123/'')'
   when: lh_exists.state == "file"
   tags:
     - never
